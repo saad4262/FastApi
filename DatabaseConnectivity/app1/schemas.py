@@ -1,11 +1,33 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from pydantic import BaseModel
+from typing import Union
 
+# Item Base
+class ItemBase(BaseModel):
+    title: str
+    description: Union[str, None] = None
 
-DATABASE_URL = "sqlite:///./test.db"
+class ItemCreate(ItemBase):
+    pass
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+class Item(ItemBase):
+    id: int
+    owner_id: int
 
-Base = declarative_base()
+    class Config:
+        from_attributes = True
+
+# # User Base
+class UserBase(BaseModel):
+    # name: str
+    email: str
+
+class UserCreate(UserBase):
+    password: str
+
+class User(UserBase):
+    id: int
+    # is_active: bool
+    # items: list[Item] = []
+
+    class Config:
+        from_attributes = True  # Pydantic v2 preferred
