@@ -18,7 +18,7 @@ class Item(ItemBase):
 
 # # User Base
 class UserBase(BaseModel):
-    # name: str
+    username: str
     email: str
 
 class UserCreate(UserBase):
@@ -27,7 +27,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     # is_active: bool
-    # items: list[Item] = []
+    items: list[Item] = []
 
     class Config:
         from_attributes = True  # Pydantic v2 preferred
